@@ -69,6 +69,8 @@ qt_add_qml_module(appbrisa_qml
         qml/Brisa/BrisaEmpty.qml
         qml/Brisa/BrisaDataTable.qml
         qml/Brisa/BrisaDivider.qml
+        qml/Brisa/BrisaCollapse.qml
+        qml/Brisa/BrisaCollapseItem.qml
         qml/Brisa/BrisaCheckbox.qml
         qml/Brisa/BrisaCheckboxGroup.qml
         qml/Brisa/BrisaRadio.qml
@@ -96,6 +98,7 @@ qt_add_qml_module(appbrisa_qml
         examples/showcase/EmptyShowcase.qml
         examples/showcase/DataTableShowcase.qml
         examples/showcase/DividerShowcase.qml
+        examples/showcase/CollapseShowcase.qml
         examples/showcase/CheckboxShowcase.qml
         examples/showcase/RadioShowcase.qml
         examples/showcase/AlertShowcase.qml

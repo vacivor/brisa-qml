@@ -131,6 +131,7 @@ ApplicationWindow {
                                     { key: "empty", label: "Empty" },
                                     { key: "data-table", label: "Data Table" },
                                     { key: "divider", label: "Divider" },
+                                    { key: "collapse", label: "Collapse" },
                                     { key: "tag", label: "Tag" },
                                     { key: "card", label: "Cards" },
                                     { key: "menu", label: "Menu" },
@@ -201,6 +202,8 @@ ApplicationWindow {
                                 return cardPage
                             case "divider":
                                 return dividerPage
+                            case "collapse":
+                                return collapsePage
                             case "icon":
                                 return iconPage
                             case "list":
@@ -293,6 +296,7 @@ ApplicationWindow {
     Component { id: emptyPage; EmptyShowcase { width: pageLoader.width } }
     Component { id: dataTablePage; DataTableShowcase { width: pageLoader.width } }
     Component { id: dividerPage; DividerShowcase { width: pageLoader.width } }
+    Component { id: collapsePage; CollapseShowcase { width: pageLoader.width } }
     Component { id: tagPage; TagShowcase { width: pageLoader.width } }
     Component { id: cardPage; CardShowcase { width: pageLoader.width } }
     Component { id: menuPage; MenuShowcase { width: pageLoader.width } }
