@@ -19,6 +19,7 @@ Item {
     property var separator: "to"
     property var placeholderPair: ["From", "To"]
     property var autosize: false // bool | { minRows, maxRows }
+    property string resize: "none" // none | vertical | both
     property string showPasswordOn: "click" // click | mousedown
     property bool passivelyActivated: false
     property var allowInput: null
@@ -93,8 +94,16 @@ Item {
     readonly property int loadingSize: 14
     readonly property int textareaPaddingVertical: 6
     readonly property int suffixGap: 6
+    readonly property int minTextareaWidth: 120
+    readonly property int minTextareaHeight: inputHeight * 2
     readonly property bool loadingDefined: loading !== undefined && loading !== null
     readonly property bool loadingVisible: Boolean(loading)
+    readonly property bool verticalResizeEnabled: root.resize === "vertical"
+    readonly property bool bothResizeEnabled: root.resize === "both"
+    readonly property bool resizeEnabled: root.type === "textarea"
+        && !root.disabled
+        && root.autosize === false
+        && (verticalResizeEnabled || bothResizeEnabled)
     readonly property color baseColor: disabled ? theme.inputColorDisabled : theme.inputColor
     readonly property color borderColor: {
         if (disabled) return theme.borderColor
@@ -223,45 +232,72 @@ Item {
                 Keys.onPressed: function(event) { root.keyDown(event.key) }
             }
 
-            TextEdit {
-                id: textarea
+            Item {
+                id: textareaViewport
                 visible: root.type === "textarea" && !root.pair
-                text: root.text
-                onTextChanged: {
-                    if (!acceptInput(text)) {
-                        text = lastAcceptedText
-                        return
-                    }
-                    lastAcceptedText = text
-                    if (!root.externalTextBinding && root.text !== text) root.text = text
-                    root.textEdited()
-                    root.inputEvent(text)
-                    updateTextareaHeight()
-                }
-                readOnly: root.readOnly
-                enabled: !root.disabled
-                font.pixelSize: root.fontSize
-                font.family: theme.fontFamily
-                color: theme.textColor2
-                selectionColor: Qt.rgba(theme.primaryColor.r, theme.primaryColor.g, theme.primaryColor.b, 0.2)
-                selectedTextColor: theme.textColor1
-                wrapMode: TextEdit.Wrap
-                cursorVisible: activeFocus
-                cursorDelegate: Rectangle {
-                    width: 1
-                    color: theme.cursorColorFor(root.status)
-                    height: Math.max(parent.cursorRectangle.height, parent.font.pixelSize)
-                    y: parent.cursorRectangle.height > 0
-                        ? parent.cursorRectangle.y + (parent.cursorRectangle.height - height) / 2
-                        : root.textareaPaddingVertical
-                    visible: parent.activeFocus
-                }
                 anchors.top: parent.top
                 anchors.topMargin: textareaPaddingVertical
                 width: Math.max(20, parent.width - prefixSlot.width - suffixSlot.width - clearSlot.width - loadingSlot.width)
                 height: textareaHeight
-                Keys.onReleased: root.keyUp()
-                Keys.onPressed: function(event) { root.keyDown(event.key) }
+
+                Flickable {
+                    id: textareaFlick
+                    anchors.fill: parent
+                    clip: true
+                    contentWidth: width
+                    contentHeight: textarea.height
+                    boundsBehavior: Flickable.StopAtBounds
+                    interactive: contentHeight > height + 1
+
+                    TextEdit {
+                        id: textarea
+                        width: Math.max(20, textareaFlick.width)
+                        height: Math.max(textareaFlick.height, contentHeight)
+                        text: root.text
+                        onTextChanged: {
+                            if (!acceptInput(text)) {
+                                text = lastAcceptedText
+                                return
+                            }
+                            lastAcceptedText = text
+                            if (!root.externalTextBinding && root.text !== text) root.text = text
+                            root.textEdited()
+                            root.inputEvent(text)
+                            updateTextareaHeight()
+                        }
+                        onCursorRectangleChanged: {
+                            var top = cursorRectangle.y
+                            var bottom = cursorRectangle.y + cursorRectangle.height
+                            if (top < textareaFlick.contentY) {
+                                textareaFlick.contentY = top
+                            } else if (bottom > textareaFlick.contentY + textareaFlick.height) {
+                                textareaFlick.contentY = bottom - textareaFlick.height
+                            }
+                        }
+                        onWidthChanged: Qt.callLater(updateTextareaHeight)
+                        readOnly: root.readOnly
+                        enabled: !root.disabled
+                        font.pixelSize: root.fontSize
+                        font.family: theme.fontFamily
+                        color: theme.textColor2
+                        selectionColor: Qt.rgba(theme.primaryColor.r, theme.primaryColor.g, theme.primaryColor.b, 0.2)
+                        selectedTextColor: theme.textColor1
+                        wrapMode: TextEdit.Wrap
+                        cursorVisible: activeFocus
+                        cursorDelegate: Rectangle {
+                            width: 1
+                            color: theme.cursorColorFor(root.status)
+                            height: Math.max(parent.cursorRectangle.height, parent.font.pixelSize)
+                            y: parent.cursorRectangle.height > 0
+                                ? parent.cursorRectangle.y + (parent.cursorRectangle.height - height) / 2
+                                : 0
+                            visible: parent.activeFocus
+                        }
+                        Keys.onReleased: root.keyUp()
+                        Keys.onPressed: function(event) { root.keyDown(event.key) }
+                    }
+                }
+
             }
 
             Row {
@@ -589,6 +625,7 @@ Item {
         font.family: theme.fontFamily
         anchors.right: parent.right
         anchors.rightMargin: effectivePaddingRight
+            + (root.resizeEnabled ? 18 : 0)
         anchors.bottom: parent.bottom
         anchors.bottomMargin: root.type === "textarea" ? textareaPaddingVertical : 4
     }
@@ -605,7 +642,7 @@ Item {
     property bool clearPressed: false
     property bool passwordVisible: false
     property string lastAcceptedText: ""
-    property int textareaHeight: inputHeight * 2
+    property int textareaHeight: minTextareaHeight
     property bool textareaUserResized: false
     property int userTextareaHeight: 0
 
@@ -629,7 +666,7 @@ Item {
     function updateTextareaHeight() {
         if (root.type !== "textarea") return
         if (textareaUserResized && userTextareaHeight > 0) {
-            textareaHeight = Math.max(inputHeight * 2, userTextareaHeight)
+            textareaHeight = Math.max(minTextareaHeight, userTextareaHeight)
             return
         }
         var rows = Math.max(2, Math.ceil(textarea.contentHeight / (root.fontSize + 6)))
@@ -677,14 +714,27 @@ Item {
     }
 
     Item {
+        id: textareaScrollbarHost
+        anchors.fill: parent
+        visible: root.type === "textarea" && !root.pair
+
+        BrisaScrollBar {
+            id: textareaScrollBar
+            flickable: textareaFlick
+            margin: 4
+            crossInset: 4
+        }
+    }
+
+    Item {
         id: textareaResizeHandle
         width: 14
         height: 14
-        visible: root.type === "textarea" && !root.disabled && root.autosize === false
-        anchors.right: contentWrap.right
-        anchors.bottom: contentWrap.bottom
+        visible: root.resizeEnabled
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
         anchors.rightMargin: 4
-        anchors.bottomMargin: textareaPaddingVertical - 2
+        anchors.bottomMargin: 4
 
         Canvas {
             anchors.fill: parent
@@ -704,17 +754,26 @@ Item {
 
         MouseArea {
             anchors.fill: parent
-            cursorShape: Qt.SizeFDiagCursor
-            property real startY: 0
+            cursorShape: root.bothResizeEnabled ? Qt.SizeFDiagCursor : Qt.SizeVerCursor
+            property real startSceneX: 0
+            property real startSceneY: 0
+            property real startWidth: 0
             property real startHeight: 0
             onPressed: function(mouse) {
-                startY = mouse.y
+                startSceneX = textareaResizeHandle.mapToItem(null, mouse.x, mouse.y).x
+                startSceneY = textareaResizeHandle.mapToItem(null, mouse.x, mouse.y).y
+                startWidth = Math.max(root.width, root.implicitWidth)
                 startHeight = textareaHeight
                 textareaUserResized = true
             }
             onPositionChanged: function(mouse) {
-                var delta = mouse.y - startY
-                userTextareaHeight = Math.max(inputHeight * 2, startHeight + delta)
+                var currentSceneX = textareaResizeHandle.mapToItem(null, mouse.x, mouse.y).x
+                var currentSceneY = textareaResizeHandle.mapToItem(null, mouse.x, mouse.y).y
+                if (root.bothResizeEnabled) {
+                    root.width = Math.max(minTextareaWidth, startWidth + currentSceneX - startSceneX)
+                }
+                var deltaY = currentSceneY - startSceneY
+                userTextareaHeight = Math.max(minTextareaHeight, startHeight + deltaY)
                 textareaHeight = userTextareaHeight
             }
         }

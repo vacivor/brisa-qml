@@ -147,6 +147,30 @@ Item {
 
         BrisaCard {
             width: parent.width
+            title: "Resize"
+            Column {
+                spacing: 12
+
+                BrisaInput {
+                    width: 320
+                    type: "textarea"
+                    resize: "vertical"
+                    autosize: false
+                    text: "Vertical resize keeps width fixed and lets the unified lower-right handle adjust height."
+                }
+
+                BrisaInput {
+                    width: 320
+                    type: "textarea"
+                    resize: "both"
+                    autosize: false
+                    text: "Both resize uses the same lower-right handle and updates width plus height together."
+                }
+            }
+        }
+
+        BrisaCard {
+            width: parent.width
             title: "Pair"
             Column {
                 spacing: 12
