@@ -124,6 +124,7 @@ ApplicationWindow {
                                     { key: "alert", label: "Alert" }
                                 ]},
                                 { type: "group", label: "Foundation", children: [
+                                    { key: "avatar", label: "Avatar" },
                                     { key: "breadcrumb", label: "Breadcrumb" },
                                     { key: "icon", label: "Icon" },
                                     { key: "list", label: "List" },
@@ -200,6 +201,8 @@ ApplicationWindow {
                                 return buttonPage
                             case "card":
                                 return cardPage
+                            case "avatar":
+                                return avatarPage
                             case "divider":
                                 return dividerPage
                             case "collapse":
@@ -278,6 +281,7 @@ ApplicationWindow {
 
     Component { id: layoutPage; LayoutShowcase { width: pageLoader.width } }
     Component { id: buttonPage; ButtonShowcase { width: pageLoader.width } }
+    Component { id: avatarPage; AvatarShowcase { width: pageLoader.width } }
     Component { id: inputsPage; InputShowcase { width: pageLoader.width } }
     Component { id: inputNumberPage; InputNumberShowcase { width: pageLoader.width } }
     Component { id: selectPage; SelectShowcase { width: pageLoader.width } }

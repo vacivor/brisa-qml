@@ -76,7 +76,10 @@ qt_add_qml_module(appbrisa_qml
         qml/Brisa/BrisaRadio.qml
         qml/Brisa/BrisaRadioGroup.qml
         qml/Brisa/BrisaAlert.qml
+        qml/Brisa/BrisaAvatar.qml
+        qml/Brisa/BrisaAvatarGroup.qml
         examples/showcase/ShowcaseSection.qml
+        examples/showcase/AvatarShowcase.qml
         examples/showcase/BreadcrumbShowcase.qml
         examples/showcase/ButtonShowcase.qml
         examples/showcase/ListShowcase.qml
