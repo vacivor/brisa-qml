@@ -57,6 +57,7 @@ qt_add_qml_module(appbrisa_qml
         qml/Brisa/BrisaInputGroupLabel.qml
         qml/Brisa/BrisaBreadcrumb.qml
         qml/Brisa/BrisaBreadcrumbItem.qml
+        qml/Brisa/BrisaBadge.qml
         qml/Brisa/BrisaFloatButton.qml
         qml/Brisa/BrisaFloatButtonGroup.qml
         qml/Brisa/BrisaList.qml
@@ -82,6 +83,7 @@ qt_add_qml_module(appbrisa_qml
         qml/Brisa/BrisaAvatarGroup.qml
         examples/showcase/ShowcaseSection.qml
         examples/showcase/AvatarShowcase.qml
+        examples/showcase/BadgeShowcase.qml
         examples/showcase/BreadcrumbShowcase.qml
         examples/showcase/FloatButtonShowcase.qml
         examples/showcase/ButtonShowcase.qml

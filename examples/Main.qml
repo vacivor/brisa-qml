@@ -125,6 +125,7 @@ ApplicationWindow {
                                 ]},
                                 { type: "group", label: "Foundation", children: [
                                     { key: "avatar", label: "Avatar" },
+                                    { key: "badge", label: "Badge" },
                                     { key: "breadcrumb", label: "Breadcrumb" },
                                     { key: "float-button", label: "Float Button" },
                                     { key: "icon", label: "Icon" },
@@ -214,6 +215,8 @@ ApplicationWindow {
                                 return listPage
                             case "breadcrumb":
                                 return breadcrumbPage
+                            case "badge":
+                                return badgePage
                             case "float-button":
                                 return floatButtonPage
                             case "spin":
@@ -285,6 +288,7 @@ ApplicationWindow {
     Component { id: layoutPage; LayoutShowcase { width: pageLoader.width } }
     Component { id: buttonPage; ButtonShowcase { width: pageLoader.width } }
     Component { id: avatarPage; AvatarShowcase { width: pageLoader.width } }
+    Component { id: badgePage; BadgeShowcase { width: pageLoader.width } }
     Component { id: inputsPage; InputShowcase { width: pageLoader.width } }
     Component { id: inputNumberPage; InputNumberShowcase { width: pageLoader.width } }
     Component { id: selectPage; SelectShowcase { width: pageLoader.width } }
