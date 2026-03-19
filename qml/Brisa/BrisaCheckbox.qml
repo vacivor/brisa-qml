@@ -8,6 +8,7 @@ FocusScope {
     property var defaultChecked: false
     property var value: undefined
     property bool disabled: false
+    property bool passive: false
     property bool indeterminate: false
     property string label: ""
     property bool focusable: true
@@ -69,7 +70,7 @@ FocusScope {
 
     implicitWidth: contentRow.implicitWidth
     implicitHeight: Math.max(indicatorSize, labelText.implicitHeight)
-    activeFocusOnTab: focusable
+    activeFocusOnTab: focusable && !passive
 
     function findGroup(item) {
         var current = item
@@ -101,7 +102,7 @@ FocusScope {
     }
 
     Keys.onPressed: function(event) {
-        if (mergedDisabled)
+        if (mergedDisabled || passive)
             return
         if (event.key === Qt.Key_Space || event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
             toggle(event)
@@ -201,7 +202,7 @@ FocusScope {
             MouseArea {
                 id: boxMouse
                 anchors.fill: parent
-                enabled: !root.mergedDisabled
+                enabled: !root.mergedDisabled && !root.passive
                 hoverEnabled: true
                 cursorShape: root.mergedDisabled ? Qt.ArrowCursor : Qt.PointingHandCursor
                 onClicked: function(mouse) {

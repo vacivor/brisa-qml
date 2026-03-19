@@ -1,5 +1,4 @@
 import QtQuick
-import brisa_qml
 
 QtObject {
     id: theme

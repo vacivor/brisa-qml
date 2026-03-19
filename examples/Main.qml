@@ -114,6 +114,8 @@ ApplicationWindow {
                                     { key: "inputs", label: "Inputs" },
                                     { key: "input-number", label: "Input Number" },
                                     { key: "select", label: "Select" },
+                                    { key: "tree", label: "Tree" },
+                                    { key: "tree-select", label: "Tree Select" },
                                     { key: "tabs", label: "Tabs" },
                                     { key: "pagination", label: "Pagination" },
                                     { key: "progress", label: "Progress" },
@@ -237,6 +239,10 @@ ApplicationWindow {
                                 return inputNumberPage
                             case "select":
                                 return selectPage
+                            case "tree":
+                                return treePage
+                            case "tree-select":
+                                return treeSelectPage
                             case "tabs":
                                 return tabsPage
                             case "pagination":
@@ -292,6 +298,8 @@ ApplicationWindow {
     Component { id: inputsPage; InputShowcase { width: pageLoader.width } }
     Component { id: inputNumberPage; InputNumberShowcase { width: pageLoader.width } }
     Component { id: selectPage; SelectShowcase { width: pageLoader.width } }
+    Component { id: treePage; TreeShowcase { width: pageLoader.width } }
+    Component { id: treeSelectPage; TreeSelectShowcase { width: pageLoader.width } }
     Component { id: tabsPage; TabsShowcase { width: pageLoader.width } }
     Component { id: paginationPage; PaginationShowcase { width: pageLoader.width } }
     Component { id: progressPage; ProgressShowcase { width: pageLoader.width } }

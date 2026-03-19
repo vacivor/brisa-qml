@@ -47,6 +47,10 @@ qt_add_qml_module(appbrisa_qml
         qml/Brisa/BrisaInput.qml
         qml/Brisa/BrisaInputNumber.qml
         qml/Brisa/BrisaSelect.qml
+        qml/Brisa/BrisaTree.qml
+        qml/Brisa/BrisaTreeNode.qml
+        qml/Brisa/BrisaTreeSelect.qml
+        qml/Brisa/BrisaTreeSelectNode.qml
         qml/Brisa/BrisaComboBox.qml
         qml/Brisa/BrisaTabPane.qml
         qml/Brisa/BrisaTabs.qml
@@ -95,6 +99,8 @@ qt_add_qml_module(appbrisa_qml
         examples/showcase/InputShowcase.qml
         examples/showcase/InputNumberShowcase.qml
         examples/showcase/SelectShowcase.qml
+        examples/showcase/TreeShowcase.qml
+        examples/showcase/TreeSelectShowcase.qml
         examples/showcase/TabsShowcase.qml
         examples/showcase/PaginationShowcase.qml
         examples/showcase/ProgressShowcase.qml
