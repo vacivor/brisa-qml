@@ -388,7 +388,18 @@ QtObject {
         var s = size || 12
         return "data:image/svg+xml;utf8," +
             "<svg xmlns='http://www.w3.org/2000/svg' width='" + s + "' height='" + s + "' viewBox='0 0 12 12' fill='none'>" +
-            "<path d='M2.146 2.146a.5.5 0 0 1 .708 0L6 5.293l3.146-3.147a.5.5 0 1 1 .708.708L6.707 6l3.147 3.146a.5.5 0 0 1-.708.708L6 6.707 2.854 9.854a.5.5 0 1 1-.708-.708L5.293 6 2.146 2.854a.5.5 0 0 1 0-.708Z' fill='" + c + "'/>" +
+            "<path d='M2.75 2.75L9.25 9.25M9.25 2.75L2.75 9.25' stroke='" + c + "' stroke-width='1.35' stroke-linecap='round' stroke-linejoin='round'/>" +
+            "</svg>"
+    }
+
+    function svgPlus(color, size) {
+        var c = String(color)
+        if (c.indexOf("#") === 0) c = c.slice(1)
+        c = "%23" + c
+        var s = size || 12
+        return "data:image/svg+xml;utf8," +
+            "<svg xmlns='http://www.w3.org/2000/svg' width='" + s + "' height='" + s + "' viewBox='0 0 12 12' fill='none'>" +
+            "<path d='M6 2.75V9.25M2.75 6H9.25' stroke='" + c + "' stroke-width='1.35' stroke-linecap='round' stroke-linejoin='round'/>" +
             "</svg>"
     }
 

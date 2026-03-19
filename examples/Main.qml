@@ -126,6 +126,7 @@ ApplicationWindow {
                                 { type: "group", label: "Foundation", children: [
                                     { key: "avatar", label: "Avatar" },
                                     { key: "breadcrumb", label: "Breadcrumb" },
+                                    { key: "float-button", label: "Float Button" },
                                     { key: "icon", label: "Icon" },
                                     { key: "list", label: "List" },
                                     { key: "spin", label: "Spin" },
@@ -213,6 +214,8 @@ ApplicationWindow {
                                 return listPage
                             case "breadcrumb":
                                 return breadcrumbPage
+                            case "float-button":
+                                return floatButtonPage
                             case "spin":
                                 return spinPage
                             case "empty":
@@ -294,6 +297,7 @@ ApplicationWindow {
     Component { id: radioPage; RadioShowcase { width: pageLoader.width } }
     Component { id: alertPage; AlertShowcase { width: pageLoader.width } }
     Component { id: breadcrumbPage; BreadcrumbShowcase { width: pageLoader.width } }
+    Component { id: floatButtonPage; FloatButtonShowcase { width: pageLoader.width } }
     Component { id: iconPage; IconShowcase { width: pageLoader.width } }
     Component { id: listPage; ListShowcase { width: pageLoader.width } }
     Component { id: spinPage; SpinShowcase { width: pageLoader.width } }
