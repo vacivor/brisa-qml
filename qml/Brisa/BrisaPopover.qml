@@ -63,6 +63,7 @@ BrisaPopup {
                 boundsBehavior: Flickable.StopAtBounds
 
                 WheelHandler {
+                    enabled: bodyFlick.interactive
                     acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
                     onWheel: function(event) {
                         if (!bodyFlick.interactive) {

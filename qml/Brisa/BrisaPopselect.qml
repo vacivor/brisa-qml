@@ -35,6 +35,8 @@ BrisaPopover {
         interactive: contentColumn.implicitHeight > height
 
         WheelHandler {
+            enabled: listScroll.contentHeight > listScroll.height + 1
+                || listScroll.contentWidth > listScroll.width + 1
             target: listScroll
             acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
             onWheel: function(event) {

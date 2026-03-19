@@ -249,6 +249,35 @@ Item {
                     boundsBehavior: Flickable.StopAtBounds
                     interactive: contentHeight > height + 1
 
+                    WheelHandler {
+                        enabled: textareaFlick.contentHeight > textareaFlick.height + 1
+                            || textareaFlick.contentWidth > textareaFlick.width + 1
+                        acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
+                        onWheel: function(event) {
+                            var dx = event.angleDelta.x
+                            var dy = event.angleDelta.y
+                            if ((event.modifiers & Qt.ShiftModifier) && dx === 0 && dy !== 0)
+                                dx = -dy
+                            var rangeX = Math.max(0, textareaFlick.contentWidth - textareaFlick.width)
+                            var rangeY = Math.max(0, textareaFlick.contentHeight - textareaFlick.height)
+                            if (dx !== 0 && rangeX > 0) {
+                                textareaFlick.contentX = Math.max(0, Math.min(rangeX, textareaFlick.contentX - dx))
+                                event.accepted = true
+                                return
+                            }
+                            if (dy !== 0) {
+                                if (rangeY > 0) {
+                                    textareaFlick.contentY = Math.max(0, Math.min(rangeY, textareaFlick.contentY - dy))
+                                    event.accepted = true
+                                    return
+                                }
+                                event.accepted = false
+                                return
+                            }
+                            event.accepted = false
+                        }
+                    }
+
                     TextEdit {
                         id: textarea
                         width: Math.max(20, textareaFlick.width)

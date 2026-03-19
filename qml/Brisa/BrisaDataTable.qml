@@ -740,6 +740,8 @@ Item {
                 onContentXChanged: headerFlick.contentX = contentX
 
                 WheelHandler {
+                    enabled: bodyFlick.contentHeight > bodyFlick.height + 1
+                        || bodyFlick.contentWidth > bodyFlick.width + 1
                     acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
                     onWheel: function(event) {
                         var dx = event.angleDelta.x
